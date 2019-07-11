@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { getMovies } from '../services/fakeMovieService';
+// import { smart } from '@babel/template';
 
 
 class Movies extends Component {
@@ -8,7 +9,10 @@ class Movies extends Component {
         movies: getMovies()
     };
 
-    
+    moviesDelete = (movie) => {
+        const movies = this.state.movies.filter(m => m._id !== movie._id);
+        this.setState({movies});
+    };
 
     
     render() { 
@@ -23,15 +27,17 @@ class Movies extends Component {
             </thead>
             <tbody>
                 {this.state.movies.map(movie => (
-                <tr>
+                <tr key={movie._id}>
                     <td>{movie.title}</td>
                     <td>{movie.genre.name}</td>
                     <td>{movie.numberInStock}</td>
                     <td>{movie.dailyRentalRate}</td>
+                    <td><button onClick={() => this.moviesDelete(movie)} className="btn btn-danger btn-sm">Delete</button></td>
                 </tr>
                 ))}
             </tbody>
         </table>
+        
     }
 }
  
